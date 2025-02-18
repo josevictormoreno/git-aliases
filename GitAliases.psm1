@@ -1,62 +1,37 @@
-function Invoke-GitAlias {
-    param(
-        [string]$Alias,
-        [string]$Args = ""
-    )
-
-    if ($GitAliases.ContainsKey($Alias)) {
-        $Command = "git $($GitAliases[$Alias]) $Args"
-        Invoke-Expression $Command
-    } else {
-        Write-Output "Error: Unknown alias '$Alias'."
-    }
-}
-
-$GitAliases = @{
-    "gst"   = "status"
-    "ga"    = "add"
-    "gaa"   = "add *"
-    "gapa"  = "add -p"
-    "gcmsg" = "commit -m"
-    "gps"   = "push"
-    "gpl"   = "pull"
-    "gco"   = "checkout"
-    "gcb"   = "checkout -b"
-    "gcl"   = "clone"
-    "gcp"   = "cherry-pick"
-    "gcpa"  = "cherry-pick --abort"
-    "gcpc"  = "cherry-pick --continue"
-    "gb"    = "branch"
-    "gd"    = "diff"
-    "glg"   = "log --oneline --graph --decorate --all"
-    "gf"    = "fetch"
-    "gfa"   = "fetch --all --tags --prune"
-    "gh"    = "help"
-    "gmg"   = "merge"
-    "gma"   = "merge --abort"
-    "gmc"   = "merge --continue"
-    "gms"   = "merge --squash"
-    "gr"    = "rebase"
-    "gra"   = "rebase --abort"
-    "grc"   = "rebase --continue"
-    "grs"   = "reset"
-    "grsh"  = "reset --hard"
-    "grst"  = "restore"
-    "grsts" = "restore --staged"
-    "grev"  = "revert"
-    "grm"   = "rm"
-    "gs"    = "stash"
-    "gsp"   = "stash pop"
-    "gsl"   = "stash list"
-    "gsc"   = "stash clear"
-    "gtag"  = "tag"
-}
-
-foreach ($alias in $GitAliases.Keys) {
-    New-Item -Path "Function:\$alias" -Value {
-        param($Args)
-        Invoke-GitAlias $MyInvocation.MyCommand.Name $Args
-    } -Force | Out-Null
-}
-
-Export-ModuleMember -Function ($GitAliases.Keys + "Invoke-GitAlias")
+function gst { git status }
+function ga { param($file) git add $file }
+function gaa { git add * }
+function gapa { git add -p }
+function gcmsg { param($message) git commit -m "$message" }
+function gps { git push }
+function gpl { git pull }
+function gco { param($branch) git checkout $branch }
+function gcb { param($branch) git checkout -b $branch }
+function gcl { param($repo) git clone $repo }
+function gcp { param($commit) git cherry-pick $commit }
+function gcpa { git cherry-pick --abort }
+function gcpc { git cherry-pick --continue }
+function gb { git branch }
+function gd { git diff }
+function glg { git log --oneline --graph --decorate --all }
+function gf { git fetch }
+function gfa { git fetch --all --tags --prune }
+function gh { git help }
+function gmg { param($branch) git merge $branch }
+function gma { git merge --abort }
+function gmc { git merge --continue }
+function gms { param($branch) git merge --squash $branch }
+function gr { param($branch) git rebase $branch }
+function gra { git rebase --abort }
+function grc { git rebase --continue }
+function grs { param($commit) git reset $commit }
+function grsh { git reset --hard }
+function grst { param($file) git restore $file }
+function grsts { param($file) git restore --staged $file }
+function grev { param($commit) git revert $commit }
+function grm { param($file) git rm $file }
+function gs { git stash }
+function gsp { git stash pop }
+function gsl { git stash list }
+function gsc { git stash clear }
+function gtag { param($tag) git tag $tag }
