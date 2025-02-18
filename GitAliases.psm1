@@ -3,7 +3,7 @@ function ga { param($file) git add $file }
 function gaa { git add * }
 function gapa { git add -p }
 function gcmsg { param($message) git commit -m "$message" }
-function gps { git push }
+function gph { git push }
 function gpl { git pull }
 function gco { param($branch) git checkout $branch }
 function gcb { param($branch) git checkout -b $branch }
