@@ -41,7 +41,6 @@ Once installed, you can use the Git aliases like so:
 gst  # git status
 gcmsg "commit message"  # git commit -m "commit message"
 gpl  # git pull
-gps  # git push
 ```
 
 ### Available Aliases
